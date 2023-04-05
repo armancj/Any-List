@@ -1,0 +1,170 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ListItem {
+  id: ID!
+  quantity: Float!
+  completed: Boolean!
+}
+
+type List {
+  """Example field ID)"""
+  id: ID!
+
+  """Example field name"""
+  name: String!
+
+  """Example field User"""
+  user: User!
+  listItem: [ListItem!]!
+  items(offset: Int = 0, limit: Int = 10, search: String): [ListItem!]!
+  totalItem: Int!
+}
+
+type User {
+  """Id of user field"""
+  id: ID!
+
+  """FullName user field"""
+  fullName: String!
+
+  """Email user field"""
+  email: String!
+
+  """Roles user field"""
+  roles: [String!]!
+
+  """Active user field"""
+  isActive: Boolean!
+  lastUpdateBy: User
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
+  itemCount: Int!
+  listCount: Int!
+}
+
+type Item {
+  """UUID of Item"""
+  id: ID!
+
+  """name of Item"""
+  name: String!
+
+  """quantity Units of Item"""
+  quantityUnits: String
+  user: User!
+
+  """category of Item"""
+  category: String
+  listItem: [ListItem!]!
+}
+
+type AuthResponseType {
+  token: String!
+  user: User!
+}
+
+type Query {
+  revalidateToken: AuthResponseType!
+  users(roles: [ValidRoles!] = []): [User!]!
+  user(id: ID!): User!
+  items(offset: Int = 0, limit: Int = 10, search: String): [Item!]!
+  item(id: ID!): Item!
+  lists(offset: Int = 0, limit: Int = 10, search: String): [List!]!
+  list(id: ID!): List!
+  listItem(id: ID!): ListItem!
+}
+
+enum ValidRoles {
+  admin
+  user
+  superUser
+}
+
+type Mutation {
+  signUp(signUpInput: SignUpInput!): AuthResponseType!
+  login(loginInput: LoginInput!): AuthResponseType!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  blockOrActiveUser(id: ID!): User!
+  removeUser(id: ID!): User!
+  createItem(createItemInput: CreateItemInput!): Item!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  removeItem(id: ID!): Item!
+  createList(createListInput: CreateListInput!): List!
+  updateList(updateListInput: UpdateListInput!): List!
+  removeList(id: ID!): List!
+  createListItem(createListItemInput: CreateListItemInput!): ListItem!
+  updateListItem(updateListItemInput: UpdateListItemInput!): ListItem!
+
+  """Execute the construct of data seed"""
+  executeSeed: Boolean!
+}
+
+input SignUpInput {
+  email: String!
+  fullName: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  email: String
+  fullName: String
+  password: String
+  id: ID!
+  roles: [ValidRoles!]
+}
+
+input CreateItemInput {
+  """name  of item"""
+  name: String!
+
+  """quantity Units of Item"""
+  quantityUnits: String
+
+  """quantity Units of Item"""
+  category: String!
+}
+
+input UpdateItemInput {
+  """name  of item"""
+  name: String
+
+  """quantity Units of Item"""
+  quantityUnits: String
+
+  """quantity Units of Item"""
+  category: String
+  id: ID!
+}
+
+input CreateListInput {
+  """Example field name"""
+  name: String!
+}
+
+input UpdateListInput {
+  """Example field name"""
+  name: String
+  id: ID!
+}
+
+input CreateListItemInput {
+  quantity: Float = 0
+  completed: Boolean = false
+  listId: ID!
+  itemId: ID!
+}
+
+input UpdateListItemInput {
+  quantity: Float = 0
+  completed: Boolean = false
+  listId: ID
+  itemId: ID
+  id: ID!
+}
